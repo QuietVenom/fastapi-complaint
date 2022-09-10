@@ -1,5 +1,6 @@
 from schemas.base import BaseUser
 
+
 class UserRegisterIn(BaseUser):
     password: str
     phone_number: str
