@@ -1,10 +1,10 @@
 from typing import List, Optional
+
 from fastapi import APIRouter, Depends
+from managers.auth import is_admin, is_complainer, oauth2_scheme
+from managers.user import UserManager
 from models.enums import RoleType
 from schemas.response.user import UserOut
-from managers.auth import oauth2_scheme, is_complainer, is_admin
-from managers.user import UserManager
-
 
 router = APIRouter(tags=["Users"])
 
