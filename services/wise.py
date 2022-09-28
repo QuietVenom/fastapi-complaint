@@ -24,7 +24,7 @@ class WiseService:
             return [a["id"] for a in resp if a["type"] == "personal"][0]
         else:
             print(resp)
-            raise HTTPException(500, "Payment provider is not available")   
+            raise HTTPException(500, "Payment provider is not available - Get Profile")   
 
     def create_quote(self, amount):
         url = self.main_url + "/v2/quotes"
@@ -42,7 +42,7 @@ class WiseService:
             return resp["id"]
         else:
             print(resp)
-            raise HTTPException(500, "Payment provider is not available")
+            raise HTTPException(500, "Payment provider is not available - Create Quote")
 
 
     def create_recipient_account(self, full_name, iban):
@@ -63,7 +63,7 @@ class WiseService:
             return resp["id"]
         else:
             print(resp)
-            raise HTTPException(500, "Payment provider is not available")
+            raise HTTPException(500, "Payment provider is not available - Recipient")
 
     
     def create_transfer(self, target_account_id, quote_id):
@@ -83,7 +83,7 @@ class WiseService:
             return resp["id"]
         else:
             print(resp)
-            raise HTTPException(500, "Payment provider is not available")
+            raise HTTPException(500, "Payment provider is not available - Transfer")
 
     
     def fund_transfer(self, transfer_id):
@@ -94,7 +94,19 @@ class WiseService:
 
         if resp.status_code == 201:
             resp = resp.json()
+            return resp
+        else:
+            print(resp)
+            raise HTTPException(500, "Payment provider is not available - Fund")
+
+        
+    def cancel_transfer(self, transfer_id):
+        url = self.main_url + f"/v1/transfers/{transfer_id}/cancel"
+        resp = requests.put(url, headers=self.headers)
+
+        if resp.status_code == 200:
+            resp = resp.json()
             return resp["id"]
         else:
             print(resp)
-            raise HTTPException(500, "Payment provider is not available")
+            raise HTTPException(500, "Payment provider is not available - Cancel")
